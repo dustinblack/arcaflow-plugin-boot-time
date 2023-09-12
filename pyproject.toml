@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "arcaflow-plugin-template-python"
+name = "arcaflow-plugin-boot-time"
 version = "0.1.0"
 description = ""
 authors = ["Arcalot"]
 license = "Apache-2.0+GPL-2.0-only"
 
 packages = [
-   { include="arcaflow_plugin_template_python.py", from="./arcaflow_plugin_template_python"  },
+   { include="arcaflow_plugin_boot_time.py", from="./arcaflow_plugin_boot_time"  },
 ]
 
 [tool.poetry.dependencies]
