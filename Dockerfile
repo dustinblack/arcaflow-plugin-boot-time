@@ -40,7 +40,7 @@ RUN python -m pip install -r requirements.txt
 
 WORKDIR /app/${package}
 
-ENTRYPOINT ["python", "arcaflow_plugin_boot_time.py"]
+ENTRYPOINT ["python", "boot_time_plugin.py"]
 CMD []
 
 LABEL org.opencontainers.image.source="https://github.com/dustinblack/arcaflow-plugin-boot-time"

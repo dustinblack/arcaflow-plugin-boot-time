@@ -6,7 +6,7 @@ authors = ["Arcalot"]
 license = "Apache-2.0+GPL-2.0-only"
 
 packages = [
-   { include="arcaflow_plugin_boot_time.py", from="./arcaflow_plugin_boot_time"  },
+   { include="boot_time_plugin.py", from="./arcaflow_plugin_boot_time"  },
 ]
 
 [tool.poetry.dependencies]
