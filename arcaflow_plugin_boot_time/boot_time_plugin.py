@@ -23,18 +23,15 @@ def hello_world(
 
     print("==>> Running the systemd-analyze collection...")
 
-    systemd_cmd = ["systemd-analyze", "plot", "--json=pretty"]
+    # systemd_cmd = ["systemd-analyze", "plot", "--json=pretty"]
+    systemd_cmd = ["systemd-analyze", "plot"]
 
     try:
-        systemd_out = subprocess.check_output(
-            systemd_cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
-    except:
-        return "error", ErrorOutput("Error collecting systemd-analyze data!")
+        systemd_out = subprocess.check_output(systemd_cmd)
+    except subprocess.CalledProcessError as e:
+        return "error", ErrorOutput(f"Error collecting systemd-analyze data: {e}")
 
-    return "success", SuccessOutput(systemd_out)
+    return "success", SuccessOutput(str(systemd_out))
 
 
 if __name__ == "__main__":
