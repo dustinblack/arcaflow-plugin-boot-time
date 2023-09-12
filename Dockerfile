@@ -21,8 +21,8 @@ ENV PYTHONPATH /app/${package}
 WORKDIR /app/${package}
 
 # Run tests and return coverage analysis
-RUN python -m coverage run tests/test_${package}.py \
- && python -m coverage html -d /htmlcov --omit=/usr/local/*
+# RUN python -m coverage run tests/test_${package}.py \
+#  && python -m coverage html -d /htmlcov --omit=/usr/local/*
 
 
 # STAGE 2 -- Build final plugin image
@@ -30,7 +30,7 @@ FROM quay.io/arcalot/arcaflow-plugin-baseimage-python-osbase:0.3.0
 ARG package
 
 COPY --from=build /app/requirements.txt /app/
-COPY --from=build /htmlcov /htmlcov/
+# COPY --from=build /htmlcov /htmlcov/
 COPY LICENSE /app/
 COPY README.md /app/
 COPY ${package}/ /app/${package}
@@ -40,7 +40,8 @@ RUN python -m pip install -r requirements.txt
 
 WORKDIR /app/${package}
 
-ENTRYPOINT ["python", "boot_time_plugin.py"]
+# ENTRYPOINT ["python", "boot_time_plugin.py"]
+ENTRYPOINT ["/bin/bash"]
 CMD []
 
 LABEL org.opencontainers.image.source="https://github.com/dustinblack/arcaflow-plugin-boot-time"

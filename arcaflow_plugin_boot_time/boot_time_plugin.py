@@ -2,33 +2,39 @@
 
 import sys
 import typing
+import subprocess
 from arcaflow_plugin_sdk import plugin
 from boot_time_schema import (
+    InputParams,
     SuccessOutput,
     ErrorOutput,
-    InputParams,
 )
 
 
 @plugin.step(
-    id="hello-world",
-    name="Hello world!",
-    description="Says hello :)",
+    id="boot-time",
+    name="Boot Time Metrics",
+    description="Collects and organizes metrics related to system boot time.",
     outputs={"success": SuccessOutput, "error": ErrorOutput},
 )
 def hello_world(
     params: InputParams,
 ) -> typing.Tuple[str, typing.Union[SuccessOutput, ErrorOutput]]:
-    """The function is the implementation for the step. It needs the decorator
-    above to make it into a step. The type hints for the params are required.
 
-    :param params:
+    print("==>> Running the systemd-analyze collection...")
 
-    :return: the string identifying which output it is, as well the output
-        structure
-    """
+    systemd_cmd = ["systemd-analyze", "plot", "--json=pretty"]
 
-    return "success", SuccessOutput("Hello, {}!".format(params.name))
+    try:
+        systemd_out = subprocess.check_output(
+            systemd_cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+    except:
+        return "error", ErrorOutput("Error collecting systemd-analyze data!")
+
+    return "success", SuccessOutput(systemd_out)
 
 
 if __name__ == "__main__":
